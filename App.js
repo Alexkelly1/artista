@@ -16,6 +16,7 @@ import { initializeApp } from 'firebase/app';
 const firebaseConfig = {
   apiKey: "AIzaSyAMVNLVNB_8xCb1p4YyHRM5s1rUyejhykw",
   authDomain: "artista-26a24.firebaseapp.com",
+  databaseURL: "https://artista-26a24-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "artista-26a24",
   storageBucket: "artista-26a24.appspot.com",
   messagingSenderId: "962053485800",
