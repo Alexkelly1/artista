@@ -12,7 +12,10 @@ const Register = ({ navigation }) => {
 
     const onSignUp = async () => {
         await createUserWithEmailAndPassword(auth, email, password)
-            .then(res => { console.log(res) })
+            .then(res => {
+                console.log(res);
+                navigation.navigate("home");
+            })
             .catch(err => { console.log(err) });
     }
 
