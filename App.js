@@ -4,8 +4,10 @@ import './config/firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LandingScreen from './components/auth/Landing';
-import RegisterScreen from './components/auth/Register';
+import LandingScreen from './screens/Landing';
+import RegisterScreen from './screens/auth/Register';
+import LoginScreen from './screens/auth/Login';
+import { HomeScreen } from './screens/Home';
 
 const Stack = createStackNavigator();
 
@@ -15,21 +17,15 @@ const App = () => {
   if (!loggedIn) {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Landing">
-          <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Navigator initialRouteName="landing">
+          <Stack.Screen name="landing" component={LandingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="register" component={RegisterScreen} />
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="home" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
   }
-
-  return (
-    <Provider store={store}>
-      <Stack.Navigator initalRouteName="Main">
-        <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </Provider>
-  )
 }
 
 export default App;
