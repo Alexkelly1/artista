@@ -3,10 +3,9 @@ import { View, Button, TextInput } from 'react-native'
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
-
 const auth = getAuth();
 
-const Register = () => {
+const Register = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,7 +33,7 @@ const Register = () => {
             />
 
             <Button
-                onPress={() => onSignUp()}
+                onPress={() => onSignUp(navigation.navigate("Home"))}
                 title="Sign Up"
             />
         </View>

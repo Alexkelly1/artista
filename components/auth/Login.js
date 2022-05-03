@@ -29,7 +29,7 @@ const Login = () => {
             />
 
             <Button
-                onPress={() => onSignIn()}
+                onPress={() => onSignIn(navigation.navigate("Home"))}
                 title="Log In"
             />
         </View>
