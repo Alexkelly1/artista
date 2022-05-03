@@ -9,11 +9,10 @@ import RegisterScreen from './components/auth/Register';
 
 const Stack = createStackNavigator();
 
-const [loggedIn] = useState(false);
+const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
 
-export default function App() {
-  const { loggedIn } = this.state;
-  if(!loggedIn){
+  if (!loggedIn) {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Landing">
@@ -32,3 +31,5 @@ export default function App() {
     </Provider>
   )
 }
+
+export default App;
