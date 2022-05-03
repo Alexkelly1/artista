@@ -6,10 +6,10 @@ const Landing = ({ navigation }) => {
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <Button
         title="Register"
-        onPress={() => navigation.navigate("register")} />
+        onPress={() => navigation.navigate("Register")} />
       <Button
         title="Login"
-        onPress={() => navigation.navigate("login")} />
+        onPress={() => navigation.navigate("Login")} />
     </View>
   )
 }

@@ -3,19 +3,17 @@ import { View, Button, TextInput } from 'react-native'
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
+
 const auth = getAuth();
 
-const Register = ({ navigation }) => {
+const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSignUp = async () => {
         await createUserWithEmailAndPassword(auth, email, password)
-            .then(res => {
-                console.log(res);
-                navigation.navigate("home");
-            })
+            .then(res => { console.log(res) })
             .catch(err => { console.log(err) });
     }
 

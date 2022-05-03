@@ -3,18 +3,16 @@ import { View, Button, TextInput } from 'react-native'
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+
 const auth = getAuth();
 
-const Login = ({ navigation }) => {
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSignIn = async () => {
         await signInWithEmailAndPassword(auth, email, password)
-            .then(res => {
-                console.log(res);
-                navigation.navigate("home");
-            })
+            .then(res => { console.log(res) })
             .catch(err => { console.log(err) });
     }
 
