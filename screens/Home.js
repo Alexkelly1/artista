@@ -1,4 +1,13 @@
 import React from 'react'
 import { Text } from 'react-native';
 
-export const HomeScreen = () => (<Text>Home Page</Text>) 
+import Header from '../components/home/Header'
+import BottomStack from '../components/BottomTab'
+
+export const HomeScreen = () => (
+    <>
+        <Header />
+        <BottomStack />
+    </>
+
+)

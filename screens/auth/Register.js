@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Button, TextInput } from 'react-native'
+import { View, TouchableOpacity, TextInput, StyleSheet, Text } from 'react-native'
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
@@ -14,33 +14,68 @@ const Register = ({ navigation }) => {
         await createUserWithEmailAndPassword(auth, email, password)
             .then(res => {
                 console.log(res);
-                navigation.navigate("home");
+                navigation.navigate("Home");
             })
             .catch(err => { console.log(err) });
     }
 
     return (
-        <View>
+        <View style = {rStyles.container}>
             <TextInput
+                style = {rStyles.input}
                 placeholder="Name"
+                placeholderTextColor={'#FFFFFF'}
                 onChangeText={(name) => setName(name)}
             />
             <TextInput
+                style = {rStyles.input}
                 placeholder="Email"
+                placeholderTextColor={'#FFFFFF'}
                 onChangeText={(email) => setEmail(email)}
             />
             <TextInput
+                style = {rStyles.input}
                 placeholder="Password"
+                placeholderTextColor={'#FFFFFF'}
                 secureTextEntry={true}
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <Button
-                onPress={() => onSignUp(navigation.navigate("Home"))}
-                title="Sign Up"
-            />
+            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("Home"))} style = {rStyles.button} >
+                <Text style = {rStyles.buttonText} >
+                    Login
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
+
+const rStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#070AE3'
+    },
+
+    input: {
+        backgroundColor: '#3F42F2',
+        padding: 10,
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 5
+    },
+
+    button: {
+        backgroundColor: '#DEC12F',
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 10
+    },
+
+    buttonText: {
+        textAlign: 'center',
+        color: '#000000',
+        justifyContent: 'center'
+    }
+})
 
 export default Register

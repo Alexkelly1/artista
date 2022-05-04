@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Button, TextInput } from 'react-native'
+import { View, TouchableOpacity, TextInput, StyleSheet, Text } from 'react-native'
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -13,29 +13,62 @@ const Login = ({ navigation }) => {
         await signInWithEmailAndPassword(auth, email, password)
             .then(res => {
                 console.log(res);
-                navigation.navigate("home");
+                navigation.navigate("Home");
             })
             .catch(err => { console.log(err) });
     }
 
     return (
-        <View>
+        <View style = {loStyles.container}>
             <TextInput
-                placeholder="Email"
+                style = {loStyles.input}
+                placeholder= "Email"
+                placeholderTextColor={'#FFFFFF'}
                 onChangeText={(email) => setEmail(email)}
             />
             <TextInput
+                style = {loStyles.input}
                 placeholder="Password"
+                placeholderTextColor={'#FFFFFF'}
                 secureTextEntry={true}
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <Button
-                onPress={() => onSignIn(navigation.navigate("Home"))}
-                title="Log In"
-            />
+            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("Home"))} style = {loStyles.button} >
+                <Text style = {loStyles.buttonText} >
+                    Login
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
+
+const loStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#070AE3'
+    },
+
+    input: {
+        backgroundColor: '#3F42F2',
+        padding: 10,
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 5
+    },
+
+    button: {
+        backgroundColor: '#DEC12F',
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 10
+    },
+
+    buttonText: {
+        textAlign: 'center',
+        color: '#000000',
+        justifyContent: 'center'
+    }
+})
 
 export default Login
