@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import 'react-native-gesture-handler'
+import React from 'react';
 import './config/firebase';
 
 import { NavigationContainer } from '@react-navigation/native';
