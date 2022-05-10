@@ -41,9 +41,9 @@ const Register = ({ navigation }) => {
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("Home"))} style = {rStyles.button} >
+            <TouchableOpacity onPress={() => onSignUp(navigation.navigate("Home"))} style = {rStyles.button} >
                 <Text style = {rStyles.buttonText} >
-                    Login
+                    Register
                 </Text>
             </TouchableOpacity>
         </View>

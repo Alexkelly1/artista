@@ -2,15 +2,16 @@ import React from 'react'
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const Header = () => {
+
+const Header = ({navigation}) => {
     return (
     <View style={styles.container}>
         <TouchableOpacity>
             <Image style = {styles.logo} source = {require('../../assets/logo.png')} />
         </TouchableOpacity>
         <View style={styles.iconsContainer}>
-            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("Home"))}>
-                <Icon style={styles.icon} name="add-circle-outline" size={30} />
+        <TouchableOpacity>
+                <Icon style={styles.icon} name="search-circle-outline" size={30} />
             </TouchableOpacity>
             <TouchableOpacity>
                 <Icon style={styles.icon} name="heart-outline" size={30} />
