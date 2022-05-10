@@ -1,34 +1,36 @@
-import React, { useState } from 'react'
-import { View, TextInput, Image, Button } from 'react-native'
+import React, { useState } from "react";
+import { View, TextInput, Image, Button } from "react-native";
 
-import firebase from "firebase/app";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-export default function Save(props) {
-    const [caption, setCaption] = useState("")
+const storage = getStorage();
 
-    const uploadImage = async () => {
-        const uri = props.route.params.image;
-        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
-        console.log(childPath)
+export const Save = (props) => {
+    const [caption, setCaption] = useState("");
+    const imagePath = props.route.params.image;
 
-        const response = await fetch(uri)
-        const blob = await response.blob();
+    const handleImageUpload = async () => {
+        if (!imagePath) return;
 
-        const task = firebase
-            .storage()
-            .ref()
-            .child(childPath)
-            .put(blob)
+        const storageRef = ref(storage, `images/${caption}`);
+        const response = await fetch(imagePath);
+        const conversion = await response.blob();
 
-    }
+        uploadBytes(storageRef, conversion)
+            .then(_ => console.log("Upload completed"))
+            .catch(err => console.log(err));
+    };
+
     return (
         <View style={{ flex: 1 }}>
-            <Image source={{ uri: props.route.params.image }} />
+            <Image source={{ uri: imagePath }} />
             <TextInput
-                placeholder='Caption...'
+                placeholder="Caption..."
                 onChangeText={(caption) => setCaption(caption)}
             />
-            <Button title='Post' onPress={() => uploadImage()} />
+            <Button title="Post" onPress={() => handleImageUpload()} />
         </View>
-    )
-}
+    );
+};
+
+export default Save;
