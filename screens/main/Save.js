@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { View, TextInput, Image, Button } from 'react-native'
 
-import firebase from 'firebase'
-import 'firebase/firestore'
-import 'firebase/firebase-storage'
+import firebase from "firebase/app";
 
 export default function Save(props) {
     const [caption, setCaption] = useState("")
@@ -21,11 +19,11 @@ export default function Save(props) {
             .ref()
             .child(childPath)
             .put(blob)
-            
+
     }
     return (
-        <View style={{flex: 1}}>
-            <Image source={{uri: props.route.params.image}} />
+        <View style={{ flex: 1 }}>
+            <Image source={{ uri: props.route.params.image }} />
             <TextInput
                 placeholder='Caption...'
                 onChangeText={(caption) => setCaption(caption)}
