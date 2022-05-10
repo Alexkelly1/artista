@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { View, TextInput, Image, Button } from 'react-native'
 
-import firebase from 'firebase'
-import 'firebase/firestore'
-import 'firebase/firebase-storage'
+import firebase from 'firebase/app'
 
 export default function Save(props) {
     const [caption, setCaption] = useState("")
@@ -21,7 +19,22 @@ export default function Save(props) {
             .ref()
             .child(childPath)
             .put(blob)
-            
+        
+        const taskProgress = snapshot => {
+            console.log(`transferred: ${snapshot.bytesTransferred}`)
+        }
+        
+        const taskCompleted = () => {
+            task.snapshot.ref.getDownloadURL().then((snapshot) => {
+                console.log(snapshot)
+            })
+        }
+
+        const taskError = snapshot => {
+            console.log(snapshot)
+        }
+
+        task.on("state_changed", taskProgress, taskError, taskCompleted);
     }
     return (
         <View style={{flex: 1}}>
