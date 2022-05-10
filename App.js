@@ -24,7 +24,7 @@ const App = () => {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}/>
+        <Stack.Screen name="Add" component={AddScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
       </Stack.Navigator>
     </NavigationContainer>
