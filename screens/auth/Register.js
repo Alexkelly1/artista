@@ -14,35 +14,35 @@ const Register = ({ navigation }) => {
         await createUserWithEmailAndPassword(auth, email, password)
             .then(res => {
                 console.log(res);
-                navigation.navigate("Home");
+                navigation.navigate("TabNavigation");
             })
             .catch(err => { console.log(err) });
     }
 
     return (
-        <View style = {rStyles.container}>
+        <View style={rStyles.container}>
             <TextInput
-                style = {rStyles.input}
+                style={rStyles.input}
                 placeholder="Name"
                 placeholderTextColor={'#FFFFFF'}
                 onChangeText={(name) => setName(name)}
             />
             <TextInput
-                style = {rStyles.input}
+                style={rStyles.input}
                 placeholder="Email"
                 placeholderTextColor={'#FFFFFF'}
                 onChangeText={(email) => setEmail(email)}
             />
             <TextInput
-                style = {rStyles.input}
+                style={rStyles.input}
                 placeholder="Password"
                 placeholderTextColor={'#FFFFFF'}
                 secureTextEntry={true}
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <TouchableOpacity onPress={() => onSignUp(navigation.navigate("Home"))} style = {rStyles.button} >
-                <Text style = {rStyles.buttonText} >
+            <TouchableOpacity onPress={() => onSignUp(navigation.navigate("TabNavigation"))} style={rStyles.button} >
+                <Text style={rStyles.buttonText} >
                     Register
                 </Text>
             </TouchableOpacity>

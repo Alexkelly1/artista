@@ -8,10 +8,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './screens/Landing';
 import RegisterScreen from './screens/auth/Register';
 import LoginScreen from './screens/auth/Login';
-import { HomeScreen } from './screens/Main';
-import Header from './components/home/Header';
-import AddScreen from './screens/main/Add';
-import SaveScreen from './screens/main/Save';
+import AddScreen from './components/camera/Add';
+import SaveScreen from './components/camera/Save';
+import { TabNavigation } from './components/TabNavigation';
+import ProfileScreen from './screens/Profile';
 
 const Stack = createStackNavigator();
 
@@ -20,12 +20,18 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Landing">
+        {/* <Stack.Navigator initialRouteName="Profile"> */}
+        <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Add" component={AddScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
+
+        <Stack.Screen
+          name="TabNavigation"
+          component={TabNavigation}
+          options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

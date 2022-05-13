@@ -3,25 +3,25 @@ import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-import FeedScreen from './main/Feed';
-import ProfileScreen from './main/Profile';
+import HomeScreen from '../screens/Home';
+import ProfileScreen from '../screens/Profile';
 
 
 const Tab = createMaterialBottomTabNavigator()
 
 const EmptyScreen = () => {
-    return(null)
+    return (null)
 }
 
-export const HomeScreen = () => (
+export const TabNavigation = () => (
     <>
-        <Tab.Navigator initialRouteName="Feed" labeled={false}>
-            <Tab.Screen name="Feed" component={FeedScreen}
+        <Tab.Navigator initialRouteName="Home" labeled={false}>
+            <Tab.Screen name="Home" component={HomeScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home-sharp" color={color} size={26}/>
+                        <Icon name="home-sharp" color={color} size={26} />
                     )
-                }}/>
+                }} />
             <Tab.Screen name="AddContainer" component={EmptyScreen}
                 listeners={({ navigation }) => ({
                     tabPress: event => {
@@ -31,15 +31,15 @@ export const HomeScreen = () => (
                 })}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="add-circle-sharp" color={color} size={26}/>
+                        <Icon name="add-circle-sharp" color={color} size={26} />
                     )
-                }}/>
+                }} />
             <Tab.Screen name="Profile" component={ProfileScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="person-sharp" color={color} size={26}/>
+                        <Icon name="person-sharp" color={color} size={26} />
                     )
-                }}/>
+                }} />
         </Tab.Navigator>
     </>
 )

@@ -13,29 +13,29 @@ const Login = ({ navigation }) => {
         await signInWithEmailAndPassword(auth, email, password)
             .then(res => {
                 console.log(res);
-                navigation.navigate("Home");
+                navigation.navigate("TabNavigation");
             })
             .catch(err => { console.log(err) });
     }
 
     return (
-        <View style = {loStyles.container}>
+        <View style={loStyles.container}>
             <TextInput
-                style = {loStyles.input}
-                placeholder= "Email"
+                style={loStyles.input}
+                placeholder="Email"
                 placeholderTextColor={'#FFFFFF'}
                 onChangeText={(email) => setEmail(email)}
             />
             <TextInput
-                style = {loStyles.input}
+                style={loStyles.input}
                 placeholder="Password"
                 placeholderTextColor={'#FFFFFF'}
                 secureTextEntry={true}
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("Home"))} style = {loStyles.button} >
-                <Text style = {loStyles.buttonText} >
+            <TouchableOpacity onPress={() => onSignIn(navigation.navigate("TabNavigation"))} style={loStyles.button} >
+                <Text style={loStyles.buttonText} >
                     Login
                 </Text>
             </TouchableOpacity>
