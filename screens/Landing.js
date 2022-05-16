@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 const Landing = ({ navigation }) => {
   return (
     <View style={lStyles.container}>
-      <Image style = {lStyles.logo} source = {require('../assets/logo.png')} />
+      <Image style = {lStyles.logo} source = {require('../assets/artista.png')} />
       <TouchableOpacity onPress={() => navigation.navigate("Register")} style = {lStyles.button} >
         <Text style = {lStyles.buttonText} >
           Register
@@ -24,7 +24,7 @@ const lStyles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flex: 1,
-    backgroundColor: '#070AE3'
+    backgroundColor: '#000000'
   },
 
   button: {

@@ -48,7 +48,7 @@ export default function Add({ navigation }) {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: "#000000"}}>
         <View style={cStyles.cameraContainer}>
             <Camera
                 ref={ref => setCamera(ref)}
