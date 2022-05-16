@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import { getAuth } from "firebase/auth";
+import ProfileHeader from "../components/ProfileHeader";
 
 const storage = getStorage();
 const auth = getAuth();
@@ -40,6 +41,7 @@ const Profile = () => {
 
     return (
         <>
+            <ProfileHeader />
             <View style={style.spacer} />
             <View style={style.gridContainer}>
                 {loadPhotos}
@@ -52,6 +54,7 @@ const style = StyleSheet.create({
     gridContainer: {
         flex: 1,
         flexDirection: "row",
+        backgroundColor: "#000000"
     },
     gridItem: {
         justifyContent: "center",
@@ -65,7 +68,7 @@ const style = StyleSheet.create({
     },
     spacer: {
         height: "30%",
-        backgroundColor: "white",
+        backgroundColor: "#000000",
     },
 });
 
