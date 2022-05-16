@@ -7,8 +7,7 @@ const storage = getStorage();
 const auth = getAuth();
 
 const Profile = () => {
-    const [photoURL, setPhotoURL] = useState();
-    const [photoList, setPhotoList] = useState([]);
+    const [photoURLs, setPhotoURLs] = useState([]);
     const user = auth.currentUser;
     const userId = auth.currentUser.uid;
 
@@ -18,22 +17,22 @@ const Profile = () => {
         const userPhotoDIR = ref(storage, `images/${userId}`)
 
         if (user) {
-            listAll(userPhotoDIR).then((res) => {
-                setPhotoList(res.items);
+            listAll(userPhotoDIR).then(async (res) => {
 
-                res.items.forEach(imgRef => {
-                    getDownloadURL(ref(storage, imgRef))
-                        .then(url => setPhotoURL(url));
-                })
+                const photosList = await Promise.all(
+                    res.items.map(imgRef => {
+                        return getDownloadURL(ref(storage, imgRef))
+                    }));
+                setPhotoURLs(photosList)
             })
                 .catch(err => console.log(err));
         }
     };
 
-    const loadPhotos = photoList.map((item, i) => {
+    const loadPhotos = photoURLs.map((url, i) => {
         return (
             <View key={i} style={style.gridItem}>
-                <Image source={{ uri: photoURL }} style={style.gridImage}></Image>
+                <Image source={{ uri: url }} style={style.gridImage}></Image>
             </View>
         )
     })
