@@ -12,6 +12,7 @@ import AddScreen from './components/camera/Add';
 import SaveScreen from './components/camera/Save';
 import { TabNavigation } from './components/TabNavigation';
 import ProfileScreen from './screens/Profile';
+import Search from './components/SearchBar';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Add" component={AddScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
+        <Stack.Screen name="Search" component={Search} />
 
         <Stack.Screen
           name="TabNavigation"

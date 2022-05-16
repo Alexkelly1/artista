@@ -3,14 +3,14 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import appLogo from '../assets/artista.png'
 
-const Header = () => {
+const Header = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity>
                 <Image style={styles.logo} source={appLogo} />
             </TouchableOpacity>
             <View style={styles.iconsContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Search")}>
                     <Icon style={styles.icon} name="search-circle-outline" size={30} />
                 </TouchableOpacity>
                 <TouchableOpacity>
