@@ -10,9 +10,9 @@ import RegisterScreen from './screens/auth/Register';
 import LoginScreen from './screens/auth/Login';
 import AddScreen from './components/camera/Add';
 import SaveScreen from './components/camera/Save';
-import { TabNavigation } from './components/TabNavigation';
+import { TabNavigation } from './components/layout/TabNavigation';
 import ProfileScreen from './screens/profile/Profile';
-import Search from './components/SearchBar';
+import Search from './components/widgets/SearchBar';
 
 const Stack = createStackNavigator();
 
@@ -21,7 +21,6 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Landing">
-        {/* <Stack.Navigator initialRouteName="Profile"> */}
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterScreen} />
