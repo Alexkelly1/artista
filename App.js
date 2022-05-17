@@ -11,7 +11,7 @@ import LoginScreen from './screens/auth/Login';
 import AddScreen from './components/camera/Add';
 import SaveScreen from './components/camera/Save';
 import { TabNavigation } from './components/TabNavigation';
-import ProfileScreen from './screens/Profile';
+import ProfileScreen from './screens/profile/Profile';
 import Search from './components/SearchBar';
 
 const Stack = createStackNavigator();

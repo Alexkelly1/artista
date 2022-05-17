@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import appLogo from '../assets/artista.png'
+import appLogo from '../../assets/artista.png'
 
-const Header = ({ navigation }) => {
+export const Header = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity>
@@ -48,6 +48,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         color: 'white'
     },
-})
-
-export default Header;
+});
