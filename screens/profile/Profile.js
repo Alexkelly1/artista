@@ -7,7 +7,7 @@ import { ProfileHeader } from "./components/ProfileHeader";
 const storage = getStorage();
 const auth = getAuth();
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
     const [photoURLs, setPhotoURLs] = useState([]);
     const user = auth.currentUser;
     const userId = auth.currentUser.uid;
@@ -31,7 +31,10 @@ const Profile = () => {
 
     return (
         <>
-            <ProfileHeader postAmount={photoURLs.length} />
+            <ProfileHeader
+                postAmount={photoURLs.length}
+                navigation={navigation}
+            />
             <FlatList
                 data={photoURLs}
                 renderItem={({ item }) => (

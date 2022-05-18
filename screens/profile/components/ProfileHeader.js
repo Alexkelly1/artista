@@ -3,9 +3,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-elements";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
+import { getAuth, signOut } from 'firebase/auth'
 import profileTest from '../../../assets/profile_test.jpg';
 
-export const ProfileHeader = ({ postAmount }) => {
+const auth = getAuth();
+
+export const ProfileHeader = ({ postAmount, navigation }) => {
+
+    // Sign out currently does not work - infinite loop caused.
+
+    // const signOutUser = () => {
+    //     signOut(auth).then((_) => {
+    //         navigation.navigate("Login");
+    //     }).catch(err => console.log(err))
+    // }
+
     return (
         <View style={{ backgroundColor: 'white' }}>
             <SafeAreaView>
@@ -29,7 +41,7 @@ export const ProfileHeader = ({ postAmount }) => {
                         </View>
                     </View>
                     <Spacer height={20} />
-                    <CustomAppButton text="Log out" />
+                    <CustomAppButton title="Log out" />
                 </View>
             </SafeAreaView >
         </View >
