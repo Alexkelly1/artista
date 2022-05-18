@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from "react-native";
 
 export const CustomAppButton = ({ text }) => (
     <View style={style.customAppButton}>
-        <Text>{text ?? ""}</Text>
+        <Text style={{color: "white"}}>{text ?? ""}</Text>
     </View>
 )
 
@@ -15,5 +15,6 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 6,
         paddingVertical: 10,
+        borderColor: "white"
     }
 });

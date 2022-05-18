@@ -48,12 +48,12 @@ const Profile = () => {
 
 const style = StyleSheet.create({
     gridItem: {
-        width: '33.3333%',
+        width: '33.3333%'
     },
     gridImage: {
         height: 150,
         width: '100%',
-        resizeMode: "cover",
+        resizeMode: "cover"
     },
 });
 
