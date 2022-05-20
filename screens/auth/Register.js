@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, TouchableOpacity, TextInput, StyleSheet, Text } from 'react-native'
-
+import { db } from '../../firebase/config/initializeApp';
+import { doc, setDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const auth = getAuth();
@@ -10,10 +11,13 @@ const Register = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSignUp = async () => {
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then(res => {
-                console.log(res);
+    const onSignUp = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(_ => {
+                const userId = auth.currentUser.uid;
+                const docRef = doc(db, "users", userId);
+
+                setDoc(docRef, { name: name, email: email });
                 navigation.navigate("TabNavigation");
             })
             .catch(err => { console.log(err) });

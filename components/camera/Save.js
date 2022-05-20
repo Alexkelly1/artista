@@ -9,6 +9,15 @@ export const Save = (props) => {
 
     const imagePath = props.route.params.image;
 
+    const postPhoto = async () => {
+        await singularPhotoUpload({ directory }, imagePath, caption)
+
+        props.navigation.navigate(
+            'TabNavigation',
+            { screen: 'Home' }
+        );
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <Image source={{ uri: imagePath }} />
@@ -18,11 +27,7 @@ export const Save = (props) => {
                 placeholderTextColor={"#000000"}
                 onChangeText={(caption) => setCaption(caption)}
             />
-            <Button title="Post" onPress={() => singularPhotoUpload(
-                { directory },
-                imagePath,
-                caption
-            )} />
+            <Button title="Post" onPress={() => postPhoto()} />
         </View>
     );
 };
