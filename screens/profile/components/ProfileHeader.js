@@ -1,32 +1,48 @@
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-elements";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
-import { getAuth, signOut } from 'firebase/auth'
-import profileTest from '../../../assets/profile_test.jpg';
+import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
+import defaultAvatar from '../../../assets/default_avatar.jpg';
+import * as ImagePicker from 'expo-image-picker';
 
-const auth = getAuth();
+export const ProfileHeader = ({ postAmount }) => {
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const directory = `user-avatars`;
 
-export const ProfileHeader = ({ postAmount, navigation }) => {
+    useEffect(() => singularPhotoDownload({ directory })
+        .then(uri => setProfilePhoto(uri)), []);
 
-    // Sign out currently does not work - infinite loop caused.
+    const launchDeviceGallery = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+        });
 
-    // const signOutUser = () => {
-    //     signOut(auth).then((_) => {
-    //         navigation.navigate("Login");
-    //     }).catch(err => console.log(err))
-    // }
+        if (!result.cancelled) handleUploadAndDownload(result.uri);
+    };
+
+    const handleUploadAndDownload = async (uri) => {
+        await singularPhotoUpload({ directory }, uri);
+
+        singularPhotoDownload({ directory })
+            .then(uri => setProfilePhoto(uri));
+    }
 
     return (
-        <View style={{ backgroundColor: 'white' }}>
+        <View style={{ backgroundColor: 'black' }}>
             <SafeAreaView>
                 <View style={style.flexContainer} >
                     <View style={style.gridRow}>
                         <Avatar
+                            onPress={() => launchDeviceGallery()}
                             size="medium"
                             rounded
-                            source={profileTest}
+                            source={profilePhoto ? { uri: profilePhoto } : defaultAvatar}
                         />
                         <Text
                             numberOfLines={1}
@@ -52,7 +68,7 @@ const style = StyleSheet.create({
     flexContainer: {
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "white",
+        backgroundColor: "black",
         paddingHorizontal: 25,
         paddingVertical: 20
     },
@@ -68,14 +84,17 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
         paddingLeft: 10,
+        color: "white"
     },
     amount: {
         fontSize: 18,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: "white"
     },
     postText: {
         fontSize: 15,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: "white"
     },
 });

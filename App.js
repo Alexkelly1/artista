@@ -1,10 +1,8 @@
 import 'react-native-gesture-handler'
 import React from 'react';
-import './config/firebase';
-
+import './firebase/config/initializeApp';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import LandingScreen from './screens/Landing';
 import RegisterScreen from './screens/auth/Register';
 import LoginScreen from './screens/auth/Login';

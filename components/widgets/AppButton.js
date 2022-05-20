@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 export const CustomAppButton = ({ title, onPress }) => (
     <TouchableOpacity onPress={() => onPress ?? console.log("Clicked")}>
         <View style={style.customAppButton}>
-            <Text>{title ?? ""}</Text>
+            <Text style={{ color: "white" }}>{title ?? ""}</Text>
         </View>
     </TouchableOpacity>
 )
@@ -17,5 +17,6 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 6,
         paddingVertical: 10,
+        borderColor: "white"
     }
 });
