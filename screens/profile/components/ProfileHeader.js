@@ -7,11 +7,7 @@ import { Spacer } from "../../../components/widgets/Spacer";
 import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import * as ImagePicker from 'expo-image-picker';
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebase/config/initializeApp";
-import { getAuth } from 'firebase/auth';
-
-const auth = getAuth();
+import { fetchFirestoreDoc } from "../../../firebase/network/firestoreDoc";
 
 export const ProfileHeader = ({ postAmount }) => {
     const [username, setUsername] = useState('');
@@ -43,18 +39,9 @@ export const ProfileHeader = ({ postAmount }) => {
             .then(uri => setProfilePhoto(uri));
     }
 
-    const fetchUserName = async () => {
-        const userId = auth.currentUser.uid;
-        const docRef = doc(db, 'users', userId);
-        const snapshot = await getDoc(docRef);
-
-        if (snapshot.exists()) {
-            const username = snapshot.data()?.name
-            setUsername(username);
-        } else {
-            console.log("No document found");
-        }
-    }
+    const fetchUserName = () =>
+        fetchFirestoreDoc("users")
+            .then(fetchedName => setUsername(fetchedName));
 
     return (
         <View style={{ backgroundColor: 'black' }}>

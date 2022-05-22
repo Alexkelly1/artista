@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList, TouchableHighlight } from "react-native";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { fetchUserPhotosList } from "../../firebase/network/fetchUserPhotosList";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,6 +10,10 @@ const Profile = ({ navigation }) => {
 
     useEffect(() => fetchUserPhotosList({ directory })
         .then(photos => setPhotoURLs(photos || [])), []);
+
+    const postDetails = (item) => {
+        navigation.navigate("Posts", { postURI: item, });
+    }
 
     return (
         <>
@@ -23,7 +27,9 @@ const Profile = ({ navigation }) => {
                         data={photoURLs}
                         renderItem={({ item }) => (
                             <View style={style.gridItem}>
-                                <Image source={{ uri: item }} style={style.gridImage}></Image>
+                                <TouchableHighlight onPress={() => postDetails(item)}>
+                                    <Image source={{ uri: item }} style={style.gridImage}></Image>
+                                </TouchableHighlight>
                             </View>
                         )}
                         numColumns={3}
@@ -41,7 +47,8 @@ const Profile = ({ navigation }) => {
             }
         </>
     );
-};
+}
+
 
 const style = StyleSheet.create({
     icon: {
