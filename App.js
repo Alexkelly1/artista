@@ -17,6 +17,19 @@ const Stack = createStackNavigator();
 
 const App = () => {
 
+  const defaultHeaderStyle = {
+    headerStyle: {
+      backgroundColor: 'black',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0
+    },
+    headerTitleStyle: {
+      color: 'white'
+    },
+    headerTintColor: '#fff'
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Landing">
@@ -27,7 +40,10 @@ const App = () => {
         <Stack.Screen name="Add" component={AddScreen} />
         <Stack.Screen name="Save" component={SaveScreen} />
         <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen name="Posts" component={PostDetailScreen} />
+        <Stack.Screen
+          name="Posts"
+          component={PostDetailScreen}
+          options={defaultHeaderStyle} />
 
         <Stack.Screen
           name="TabNavigation"
