@@ -1,9 +1,11 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export const CustomAppButton = ({ text }) => (
-    <View style={style.customAppButton}>
-        <Text style={{color: "white"}}>{text ?? ""}</Text>
-    </View>
+export const CustomAppButton = ({ title, onPress }) => (
+    <TouchableOpacity onPress={() => onPress ?? console.log("Clicked")}>
+        <View style={style.customAppButton}>
+            <Text style={{ color: "white" }}>{title ?? ""}</Text>
+        </View>
+    </TouchableOpacity>
 )
 
 const style = StyleSheet.create({

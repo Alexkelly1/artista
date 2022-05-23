@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, TouchableOpacity, TextInput, StyleSheet, Text } from 'react-native'
-
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { uploadFirestoreDoc } from '../../firebase/network/firestoreDoc';
 
 const auth = getAuth();
 
@@ -10,12 +10,13 @@ const Register = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSignUp = async () => {
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then(res => {
-                console.log(res);
-                navigation.navigate("TabNavigation");
-            })
+    const onSignUp = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(_ => uploadFirestoreDoc(
+                navigation,
+                "users",
+                { name: name, email: email }
+            ))
             .catch(err => { console.log(err) });
     }
 

@@ -21,24 +21,24 @@ export default function Add({ navigation }) {
   }, []);
 
   const takePicture = async () => {
-    if(camera){
-        const data = await camera.takePictureAsync(null);
-        setImage(data.uri);
+    if (camera) {
+      const data = await camera.takePictureAsync(null);
+      setImage(data.uri);
     }
   };
 
   const pickImage = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [1, 1],
-          quality: 1
-      });
-      console.log(result);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1
+    });
+    console.log(result);
 
-      if (!result.cancelled) {
-          setImage(result.uri);
-      }
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
   };
 
   if (hasCameraPermission === null || hasGalleryPermission === false) {
@@ -48,41 +48,41 @@ export default function Add({ navigation }) {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={{flex: 1, backgroundColor: "#000000"}}>
-        <View style={cStyles.cameraContainer}>
-            <Camera
-                ref={ref => setCamera(ref)}
-                style={cStyles.fixedRatio}
-                type={type}
-                ratio={'1:1'} />
-        </View>
+    <View style={{ flex: 1, backgroundColor: "#000000" }}>
+      <View style={cStyles.cameraContainer}>
+        <Camera
+          ref={ref => setCamera(ref)}
+          style={cStyles.fixedRatio}
+          type={type}
+          ratio={'1:1'} />
+      </View>
 
-        <Button
-            title="Flip Image"
-            onPress={() => {
-                setType(
-                    type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-            }}>
-        </Button>
-        <Button title="Take Picture" onPress={() => takePicture()}/>
-        <Button title="Pick Image from Gallery" onPress={() => pickImage()}/>
-        <Button title="Save" onPress={() => navigation.navigate('Save', { image })}/>
-        {image && <Image source={{uri: image}} style={{flex: 1}} />}
+      <Button
+        title="Flip Image"
+        onPress={() => {
+          setType(
+            type === Camera.Constants.Type.back
+              ? Camera.Constants.Type.front
+              : Camera.Constants.Type.back
+          );
+        }}>
+      </Button>
+      <Button title="Take Picture" onPress={() => takePicture()} />
+      <Button title="Pick Image from Gallery" onPress={() => pickImage()} />
+      <Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
+      {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
     </View>
   );
 }
 
 const cStyles = StyleSheet.create({
-    cameraContainer: {
-        flex: 1,
-        flexDirection: 'row'
-    },
+  cameraContainer: {
+    flex: 1,
+    flexDirection: 'row'
+  },
 
-    fixedRatio: {
-        flex: 1,
-        aspectRatio: 1
-    },
+  fixedRatio: {
+    flex: 1,
+    aspectRatio: 1
+  },
 })

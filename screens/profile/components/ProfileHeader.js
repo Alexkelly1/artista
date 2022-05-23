@@ -1,57 +1,62 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-elements";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
-import profileTest from '../../../assets/profile_test.jpg';
+import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
+import defaultAvatar from '../../../assets/default_avatar.jpg';
 import * as ImagePicker from 'expo-image-picker';
+import { fetchFirestoreDoc } from "../../../firebase/network/firestoreDoc";
 
 export const ProfileHeader = ({ postAmount }) => {
+    const [username, setUsername] = useState('');
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const directory = `user-avatars`;
 
-    const [avatar, setAvatar] = useState(profileTest)
-    const [image, setImage] = useState(null);
-  
     useEffect(() => {
-      (async () => {
-        const { galleryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        setHasGalleryPermission(galleryStatus.status === 'granted');
-      })();
+        singularPhotoDownload({ directory })
+            .then(uri => setProfilePhoto(uri))
+
+        fetchUserName();
     }, []);
-  
-    const pickImage = async () => {
+
+    const launchDeviceGallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [1, 1],
+            aspect: [4, 3],
             quality: 1
         });
-        console.log(result);
-  
-        if (!result.cancelled) {
-            setImage(result.uri);
-        }
+
+        if (!result.cancelled) handleUploadAndDownload(result.uri);
     };
-  
-    const editAvatar = () => {
-        (avatar) => setAvatar(avatar)
-        pickImage()
+
+    const handleUploadAndDownload = async (uri) => {
+        await singularPhotoUpload({ directory }, uri);
+
+        singularPhotoDownload({ directory })
+            .then(uri => setProfilePhoto(uri));
     }
 
+    const fetchUserName = () =>
+        fetchFirestoreDoc("users")
+            .then(fetchedName => setUsername(fetchedName));
+
     return (
-        <View style={{ backgroundColor: 'white' }}>
+        <View style={{ backgroundColor: 'black' }}>
             <SafeAreaView>
                 <View style={style.flexContainer} >
                     <View style={style.gridRow}>
                         <Avatar
-                            onPress={() => editAvatar()}
+                            onPress={() => launchDeviceGallery()}
                             size="medium"
                             rounded
-                            source={avatar}
+                            source={profilePhoto ? { uri: profilePhoto } : defaultAvatar}
                         />
                         <Text
                             numberOfLines={1}
-                            style={style.username}>@Username</Text>
+                            style={style.username}>{username}</Text>
                         <View>
                             <Text
                                 numberOfLines={1}
@@ -62,7 +67,7 @@ export const ProfileHeader = ({ postAmount }) => {
                         </View>
                     </View>
                     <Spacer height={20} />
-                    <CustomAppButton text="Log out" />
+                    <CustomAppButton title="Log out" />
                 </View>
             </SafeAreaView >
         </View >
