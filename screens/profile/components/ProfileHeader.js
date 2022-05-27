@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Avatar } from "react-native-elements";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
 import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import * as ImagePicker from 'expo-image-picker';
 import { fetchFirestoreDoc } from "../../../firebase/network/firestoreDoc";
+import { UserAvatar } from "../../../components/widgets/Avatar";
 
 export const ProfileHeader = ({ postAmount }) => {
     const [username, setUsername] = useState('');
@@ -48,11 +48,10 @@ export const ProfileHeader = ({ postAmount }) => {
             <SafeAreaView>
                 <View style={style.flexContainer} >
                     <View style={style.gridRow}>
-                        <Avatar
-                            onPress={() => launchDeviceGallery()}
+                        <UserAvatar
                             size="medium"
-                            rounded
                             source={profilePhoto ? { uri: profilePhoto } : defaultAvatar}
+                            onPressed={() => launchDeviceGallery()}
                         />
                         <Text
                             numberOfLines={1}
