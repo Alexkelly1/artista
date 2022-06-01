@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LikeButton, CommentButton } from "../../components/widgets/IconButtons";
@@ -6,18 +7,21 @@ import { UserAvatar } from "../../components/widgets/Avatar";
 import { Comments } from "./components/Comments";
 import { Spacer } from '../../components/widgets/Spacer';
 import defaultAvatar from '../../assets/default_avatar.jpg';
+import { UserContext } from "../../state/Context";
 
 const PostDetailScreen = (props) => {
     const { postURI } = props.route.params;
+    const appContext = useContext(UserContext);
+    const { avatar, username } = appContext.state;
 
     return (
         <View style={style.postContainer}>
             <View style={style.postHeader}>
                 <UserAvatar
                     size="small"
-                    source={defaultAvatar}
+                    source={avatar ? { uri: avatar } : defaultAvatar}
                 />
-                <Text style={style.username}>Username</Text>
+                <Text style={style.username}>{username ? username : "Username"}</Text>
             </View>
             <Image source={{ uri: postURI }} style={style.detailPhoto}></Image>
             <ScrollView>

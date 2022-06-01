@@ -1,18 +1,20 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { getAuth } from 'firebase/auth';
 
 const Landing = ({ navigation }) => {
+
   return (
     <View style={lStyles.container}>
-      <Image style = {lStyles.logo} source = {require('../assets/artista.png')} />
-      <TouchableOpacity onPress={() => navigation.navigate("Register")} style = {lStyles.button} >
-        <Text style = {lStyles.buttonText} >
+      <Image style={lStyles.logo} source={require('../assets/artista.png')} />
+      <TouchableOpacity onPress={() => navigation.navigate("Register")} style={lStyles.button} >
+        <Text style={lStyles.buttonText} >
           Register
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")} style = {lStyles.button} >
-        <Text style = {lStyles.buttonText} >
+      <TouchableOpacity onPress={() => navigation.navigate("Login")} style={lStyles.button} >
+        <Text style={lStyles.buttonText} >
           Login
         </Text>
       </TouchableOpacity>
@@ -46,7 +48,7 @@ const lStyles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
     justifyContent: 'center'
-},
+  },
 })
 
 export default Landing

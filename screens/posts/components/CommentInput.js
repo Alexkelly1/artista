@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
     View,
     TextInput, KeyboardAvoidingView,
@@ -7,28 +8,34 @@ import {
 import { UserAvatar } from '../../../components/widgets/Avatar';
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { UserContext } from "../../../state/Context";
 
-export const CommentInput = () => (
-    <KeyboardAvoidingView behavior='position'>
-        <View style={style.commentContainer}>
-            <UserAvatar
-                size="small"
-                source={defaultAvatar}
-            />
-            <TextInput
-                style={style.commentInput}
-                placeholder="Add a comment..."
-                placeholderTextColor={'#c4c4c4'}
-            />
-            <TouchableHighlight>
-                <Icon name="send"
-                    size={25}
-                    color="white"
+export const CommentInput = () => {
+    const appContext = useContext(UserContext);
+    const { avatar } = appContext.state;
+
+    return (
+        <KeyboardAvoidingView behavior='position'>
+            <View style={style.commentContainer}>
+                <UserAvatar
+                    size="small"
+                    source={avatar ? { uri: avatar } : defaultAvatar}
                 />
-            </TouchableHighlight>
-        </View>
-    </KeyboardAvoidingView>
-)
+                <TextInput
+                    style={style.commentInput}
+                    placeholder="Add a comment..."
+                    placeholderTextColor={'#c4c4c4'}
+                />
+                <TouchableHighlight>
+                    <Icon name="send"
+                        size={25}
+                        color="white"
+                    />
+                </TouchableHighlight>
+            </View>
+        </KeyboardAvoidingView>
+    )
+}
 
 const style = StyleSheet.create({
     commentContainer: {

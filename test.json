@@ -1,0 +1,42 @@
+// This is how we need to model our data from firebase
+
+// 1. ----- user table
+{
+ "user": {
+    "id": 10,
+    "name": "John Doe",
+    "email": "johndoe@gmail.com",
+    "password": "djf48h$4djfjjj5$%hd", // encrypted
+    "avatar": "https://firebase.image.0e2Q736Bd8he4wf",
+    "token": "Exqt54Eeb7eun989xZswUiZZazs876",
+    "refreshToken": "Q0xEx58tmr87Cvqy290ed7sLZ12c",
+    "posts": [
+        {
+            "postId": 4,
+            "caption": "A lovely view of a city",
+            "uri": "https://firebase.image.0qyehfu7r6fybb38hd"
+        }
+    ]
+}
+}
+
+// 2. ------ comments table
+{
+    "comments": [
+        {
+        "id": 3,
+        "postId": 4,
+        "comment": "This is actually quite nice."
+        }
+    ]
+}
+
+// When an user uploads an image to a bucket, firebase also needs to insert that URL
+// into the user object in firestore e.g. posts: [{ url: "https://firestore" }]
+
+    /**
+     * When the app loads -> 
+     *  - if auth same: do nothing
+        - if auth not same /logged out -> clear state 
+            -if a request returns 403 (Access Forbidden HTTP code) -> log out & clear state 
+    */
