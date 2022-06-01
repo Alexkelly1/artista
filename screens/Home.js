@@ -20,6 +20,9 @@ export default function Home(props) {
                 ]
             );
 
+            console.log("LocalStorage Avatar: " + avatar);
+            console.log("LocalStorage Username: " + username);
+
             const usernameSource = username || await fetchFirestoreDoc('users');
             const avatarSource = avatar || await singularPhotoDownload({ directory: 'user-avatars' });
             if (usernameSource || avatarSource) {

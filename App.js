@@ -16,7 +16,6 @@ import PostDetailScreen from './screens/posts/PostDetail';
 import Search from './components/widgets/SearchBar';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
-
 const Stack = createStackNavigator();
 const auth = getAuth();
 
@@ -29,11 +28,12 @@ const App = () => {
       if (user) {
         setHasToken(user.refreshToken);
         setIsLoading(false);
+        console.log("Logged In")
       } else setIsLoading(false);
-
+      console.log("Logged Out")
       // TODO: Dispatch token to reducer
     });
-  }, []);
+  }, [auth]);
 
   const defaultHeaderStyle = {
     headerStyle: {

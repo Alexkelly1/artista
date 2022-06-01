@@ -15,11 +15,6 @@ export const UserContext = createContext({
     dispatch: () => { }
 });
 
-const singleCaseState = (caseItem, state, action) => {
-    AsyncStorage.setItem(`${caseItem}`, action.payload[caseItem]);
-    return { ...state, [caseItem]: action.payload[caseItem] }
-}
-
 const appReducer = (state, action) => {
     switch (action.type) {
         case ActionType.UserDetails:
@@ -28,13 +23,22 @@ const appReducer = (state, action) => {
 
             return { ...state, username: action.payload.username, avatar: action.payload.avatar }
 
-        case ActionType.Avatar: singleCaseState(`avatar`, state, action);
+        case ActionType.Avatar:
+            AsyncStorage.setItem("avatar", action.payload.avatar);
 
-        case ActionType.Username: singleCaseState(`username`, state, action);
+            return { ...state, avatar: action.payload.avatar };
+
+        case ActionType.Username:
+            AsyncStorage.setItem("username", action.payload.username);
 
             return { ...state, username: action.payload.username }
 
-        case ActionType.Logout: return initialState;
+
+        case ActionType.Logout:
+            AsyncStorage.removeItem('username');
+            AsyncStorage.removeItem('avatar');
+
+            return initialState;
 
         default:
             console.error("Action not found.");

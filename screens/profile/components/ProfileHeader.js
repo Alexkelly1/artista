@@ -45,6 +45,7 @@ export const ProfileHeader = ({ postAmount, navigation }) => {
     const signOutFirebaseUser = () => {
         // signOut(auth).then(() => {
         //     appContext.dispatch({ type: ActionType.Logout });
+        //     console.log("Logging Out")
         //     navigation.navigate('Landing');
         // })
         //     .catch(err => console.log(err));
