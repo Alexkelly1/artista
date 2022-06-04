@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, FlatList, TouchableHighlight } from "rea
 import { ProfileHeader } from "./components/ProfileHeader";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { fetchFirestoreDoc } from "../../firebase/network/firestoreDoc";
+import placeholder from '../../assets/image-placeholder.jpg';
 
 const Profile = ({ navigation }) => {
     const [photoURLs, setPhotoURLs] = useState([]);
@@ -12,7 +13,10 @@ const Profile = ({ navigation }) => {
         .then(user => setPhotoURLs(user.posts) || []), []);
 
     const postDetails = (item) => {
-        navigation.navigate("Posts", { postURI: item });
+        navigation.navigate("Posts", {
+            postURI: item.photo,
+            caption: item.caption
+        });
     }
 
     return (
@@ -28,10 +32,11 @@ const Profile = ({ navigation }) => {
                         renderItem={({ item }) => (
                             <View style={style.gridItem}>
                                 <TouchableHighlight onPress={() => postDetails(item)}>
-                                    <Image source={{ uri: item }} style={style.gridImage}></Image>
+                                    <Image source={item.photo ? { uri: item.photo } : placeholder} style={style.gridImage}></Image>
                                 </TouchableHighlight>
                             </View>
-                        )}
+                        )
+                        }
                         numColumns={3}
                         keyExtractor={(_, index) => index.toString()}
                     />

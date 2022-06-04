@@ -9,11 +9,11 @@ const auth = getAuth();
 export const photoUpload = async (
     { directory },
     imagePath,
-    caption,
+    postID,
 ) => {
     const user = auth.currentUser;
     const userId = auth.currentUser.uid;
-    const DIR = caption ? caption : userId;
+    const DIR = postID ? postID : userId;
     const storageRef = ref(storage, `${directory}/${userId}/${DIR}`);
 
     const response = await fetch(imagePath);
@@ -38,24 +38,31 @@ export const photoDownload = ({ directory }) => {
 export const createUserPost = (
     { directory },
     collection,
-    caption,
+    postID,
+    caption
 ) => {
     const user = auth.currentUser;
     const userId = auth.currentUser.uid;
-    const DIR = caption ? caption : userId;
+    const DIR = postID ? postID : userId;
     const storageRef = ref(storage, `${directory}/${userId}/${DIR}`);
 
     if (user) return getDownloadURL(storageRef)
         .then(url => {
             const postRef = doc(firestoreDB, collection, userId);
 
-            if (!caption) {
+            if (!postID) {
                 updateDoc(postRef, {
                     avatar: url
                 });
             } else {
                 updateDoc(postRef, {
-                    posts: arrayUnion(url)
+                    posts: arrayUnion(
+                        {
+                            author: auth.currentUser.uid,
+                            photo: url,
+                            caption: caption
+                        }
+                    )
                 });
             }
 
