@@ -22,7 +22,8 @@ const Register = ({ navigation }) => {
                     name: username,
                     email: email,
                     avatar: null,
-                    posts: []
+                    posts: [],
+                    comments: [],
                 }
             )).then(_ => navigation.navigate("TabNavigation"))
             .catch(err => { console.log(err) });

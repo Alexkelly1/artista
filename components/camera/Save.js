@@ -3,16 +3,15 @@ import { View, TextInput, Image, Button } from "react-native";
 import { photoUpload, createUserPost } from "../../firebase/network/photoHandler";
 
 export const Save = ({ navigation, route }) => {
-    const generatedId = Math.random().toString(15)
-    const postID = generatedId;
+    const postPhotoID = Math.random().toString(15);
     const [caption, setCaption] = useState("");
     const directory = 'user-posts';
 
     const imagePath = route.params.image;
 
     const postPhoto = () => {
-        photoUpload({ directory }, imagePath, postID)
-            .then(_ => createUserPost({ directory }, "users", postID, caption));
+        photoUpload({ directory }, imagePath, postPhotoID)
+            .then(_ => createUserPost({ directory }, "users", postPhotoID, caption));
 
         navigation.navigate(
             'TabNavigation',

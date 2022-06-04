@@ -15,7 +15,8 @@ const Profile = ({ navigation }) => {
     const postDetails = (item) => {
         navigation.navigate("Posts", {
             postURI: item.photo,
-            caption: item.caption
+            caption: item.caption,
+            post_id: item.post_id,
         });
     }
 

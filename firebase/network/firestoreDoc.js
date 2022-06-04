@@ -1,8 +1,15 @@
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { firestoreDB } from '../config/initializeApp';
 
 const auth = getAuth();
+
+export const updateFireStoreDoc = (collection, data) => {
+    const userId = auth.currentUser.uid;
+    const userRef = doc(firestoreDB, collection, userId);
+
+    updateDoc(userRef, data);
+}
 
 export const uploadFirestoreDoc = (directory, data) => {
     const userId = auth.currentUser.uid;

@@ -10,7 +10,7 @@ import defaultAvatar from '../../assets/default_avatar.jpg';
 import { UserContext } from "../../state/Context";
 
 const PostDetailScreen = (props) => {
-    const { postURI, caption } = props.route.params;
+    const { postURI, caption, post_id } = props.route.params;
     const appContext = useContext(UserContext);
     const { avatar, username } = appContext.state;
 
@@ -32,10 +32,10 @@ const PostDetailScreen = (props) => {
                     </View>
                     <Text style={style.caption}>{caption}</Text>
                     <Spacer height={caption != "" ? 25 : 0} />
-                    <Comments />
+                    <Comments postId={post_id} />
                 </View>
             </ScrollView>
-            <CommentInput />
+            <CommentInput postId={post_id} />
         </View >
     )
 }
