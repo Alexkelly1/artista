@@ -15,11 +15,16 @@ const Register = ({ navigation }) => {
 
     const onSignUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
-            .then(_ => uploadFirestoreDoc(
-                navigation,
+            .then(res => uploadFirestoreDoc(
                 "users",
-                { name: username, email: email }
-            ))
+                {
+                    id: res.user.uid,
+                    name: username,
+                    email: email,
+                    avatar: null,
+                    posts: []
+                }
+            )).then(_ => navigation.navigate("TabNavigation"))
             .catch(err => { console.log(err) });
     }
 
@@ -54,7 +59,7 @@ const Register = ({ navigation }) => {
                 onChangeText={(password) => setPassword(password)}
             />
 
-            <TouchableOpacity onPress={() => onSignUp(navigation.navigate("TabNavigation"))} style={rStyles.button} >
+            <TouchableOpacity onPress={() => onSignUp()} style={rStyles.button} >
                 <Text style={rStyles.buttonText} >
                     Register
                 </Text>

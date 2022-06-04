@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, FlatList, TouchableHighlight } from "react-native";
 import { ProfileHeader } from "./components/ProfileHeader";
-import { fetchUserPhotosList } from "../../firebase/network/fetchUserPhotosList";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { fetchFirestoreDoc } from "../../firebase/network/firestoreDoc";
 
 const Profile = ({ navigation }) => {
     const [photoURLs, setPhotoURLs] = useState([]);
-    const directory = `user-posts`;
+    const directory = `users`;
 
-    useEffect(() => fetchUserPhotosList({ directory })
-        .then(photos => setPhotoURLs(photos || [])), []);
+    useEffect(() => fetchFirestoreDoc(directory)
+        .then(user => setPhotoURLs(user.posts) || []), []);
 
     const postDetails = (item) => {
-        navigation.navigate("Posts", { postURI: item, });
+        navigation.navigate("Posts", { postURI: item });
     }
 
     return (

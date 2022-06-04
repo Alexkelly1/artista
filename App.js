@@ -20,20 +20,17 @@ const Stack = createStackNavigator();
 const auth = getAuth();
 
 const App = () => {
-  const [hasToken, setHasToken] = useState(null);
+  const [isSignedIn, setIsSignedIn] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setHasToken(user.refreshToken);
+        setIsSignedIn(user.refreshToken);
         setIsLoading(false);
-        console.log("Logged In")
-      } else setIsLoading(false);
-      console.log("Logged Out")
-      // TODO: Dispatch token to reducer
+      } else { setIsLoading(false); }
     });
-  }, [auth]);
+  }, []);
 
   const defaultHeaderStyle = {
     headerStyle: {
@@ -60,7 +57,7 @@ const App = () => {
       {isLoading == false ? (
         <NavigationContainer>
           <Stack.Navigator>
-            {hasToken ? (
+            {isSignedIn ? (
               <>
                 <Stack.Screen
                   name="TabNavigation"

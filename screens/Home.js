@@ -3,11 +3,11 @@ import { View, Text } from "react-native";
 import { Header } from "../components/layout/Header";
 import { getAuth } from "firebase/auth";
 import { fetchFirestoreDoc } from "../firebase/network/firestoreDoc";
-import { singularPhotoDownload } from "../firebase/network/singluarPhoto";
+import { photoDownload } from "../firebase/network/photoHandler";
 import { UserContext, ActionType } from "../state/Context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Home(props) {
+const Home = ({ navigation }) => {
     const auth = getAuth();
     const appContext = useContext(UserContext);
 
@@ -19,12 +19,10 @@ export default function Home(props) {
                     AsyncStorage.getItem('avatar'),
                 ]
             );
+            // Get user details via device local storage || over the network if not available.
+            const usernameSource = username || await fetchFirestoreDoc("users").then(user => user.name);
+            const avatarSource = avatar || await photoDownload({ directory: 'user-avatars' });
 
-            console.log("LocalStorage Avatar: " + avatar);
-            console.log("LocalStorage Username: " + username);
-
-            const usernameSource = username || await fetchFirestoreDoc('users');
-            const avatarSource = avatar || await singularPhotoDownload({ directory: 'user-avatars' });
             if (usernameSource || avatarSource) {
                 appContext.dispatch({
                     type: ActionType.UserDetails,
@@ -34,7 +32,7 @@ export default function Home(props) {
                     }
                 })
             }
-        } else { props.navigation.navigate('Landing') }
+        } else { navigation.navigate('Landing') }
     }, [auth.currentUser]);
 
     return (
@@ -46,3 +44,5 @@ export default function Home(props) {
         </>
     )
 }
+
+export default Home;

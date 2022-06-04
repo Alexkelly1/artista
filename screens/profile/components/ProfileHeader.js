@@ -3,14 +3,13 @@ import { View, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
-import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import * as ImagePicker from 'expo-image-picker';
 import { UserAvatar } from "../../../components/widgets/Avatar";
 import { UserContext, ActionType } from "../../../state/Context";
 import { getAuth, signOut } from "firebase/auth";
+import { photoUpload, createUserPost } from "../../../firebase/network/photoHandler";
 
-const auth = getAuth();
 export const ProfileHeader = ({ postAmount, navigation }) => {
     const directory = `user-avatars`;
 
@@ -25,30 +24,30 @@ export const ProfileHeader = ({ postAmount, navigation }) => {
             quality: 1
         });
 
-        if (!result.cancelled) handleUploadAndDownload(result.uri);
+        if (!result.cancelled) handleAvatarUpload(result.uri);
     };
 
-    const handleUploadAndDownload = async (uri) => {
-        await singularPhotoUpload({ directory }, uri);
-
-        singularPhotoDownload({ directory })
-            .then(uri => {
+    const handleAvatarUpload = async (uri) => {
+        await photoUpload({ directory }, uri);
+        createUserPost({ directory }, "users")
+            .then(uri =>
                 appContext.dispatch({
                     type: ActionType.Avatar,
                     payload: {
                         avatar: uri
                     }
-                });
-            });
+                }));
     };
 
     const signOutFirebaseUser = () => {
-        // signOut(auth).then(() => {
-        //     appContext.dispatch({ type: ActionType.Logout });
-        //     console.log("Logging Out")
-        //     navigation.navigate('Landing');
-        // })
-        //     .catch(err => console.log(err));
+        const auth = getAuth();
+        // signOut(auth).then(() =>
+        //     appContext.dispatch({
+        //         type: ActionType.Logout
+        //     })
+        // ).catch((error) => {
+        //     // An error happened.
+        // });
     }
 
     return (
