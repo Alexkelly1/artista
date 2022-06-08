@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomAppButton } from "../../../components/widgets/AppButton";
 import { Spacer } from "../../../components/widgets/Spacer";
-import { singularPhotoUpload, singularPhotoDownload } from "../../../firebase/network/singluarPhoto";
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import * as ImagePicker from 'expo-image-picker';
-import { fetchFirestoreDoc } from "../../../firebase/network/firestoreDoc";
 import { UserAvatar } from "../../../components/widgets/Avatar";
+import { UserContext, ActionType } from "../../../state/Context";
+import { getAuth, signOut } from "firebase/auth";
+import { photoUpload, createUserPost } from "../../../firebase/network/photoHandler";
 
-export const ProfileHeader = ({ postAmount }) => {
-    const [username, setUsername] = useState('');
-    const [profilePhoto, setProfilePhoto] = useState(null);
+export const ProfileHeader = ({ postAmount, navigation }) => {
     const directory = `user-avatars`;
 
-    useEffect(() => {
-        singularPhotoDownload({ directory })
-            .then(uri => setProfilePhoto(uri))
-
-        fetchUserName();
-    }, []);
+    const appContext = useContext(UserContext);
+    const { avatar, username } = appContext.state;
 
     const launchDeviceGallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,19 +24,31 @@ export const ProfileHeader = ({ postAmount }) => {
             quality: 1
         });
 
-        if (!result.cancelled) handleUploadAndDownload(result.uri);
+        if (!result.cancelled) handleAvatarUpload(result.uri);
     };
 
-    const handleUploadAndDownload = async (uri) => {
-        await singularPhotoUpload({ directory }, uri);
+    const handleAvatarUpload = async (uri) => {
+        await photoUpload({ directory }, uri);
+        createUserPost({ directory }, "users")
+            .then(uri =>
+                appContext.dispatch({
+                    type: ActionType.Avatar,
+                    payload: {
+                        avatar: uri
+                    }
+                }));
+    };
 
-        singularPhotoDownload({ directory })
-            .then(uri => setProfilePhoto(uri));
+    const signOutFirebaseUser = () => {
+        const auth = getAuth();
+        // signOut(auth).then(() =>
+        //     appContext.dispatch({
+        //         type: ActionType.Logout
+        //     })
+        // ).catch((error) => {
+        //     // An error happened.
+        // });
     }
-
-    const fetchUserName = () =>
-        fetchFirestoreDoc("users")
-            .then(fetchedName => setUsername(fetchedName));
 
     return (
         <View style={{ backgroundColor: 'black' }}>
@@ -50,12 +57,12 @@ export const ProfileHeader = ({ postAmount }) => {
                     <View style={style.gridRow}>
                         <UserAvatar
                             size="medium"
-                            source={profilePhoto ? { uri: profilePhoto } : defaultAvatar}
+                            source={avatar ? { uri: avatar } : defaultAvatar}
                             onPressed={() => launchDeviceGallery()}
                         />
                         <Text
                             numberOfLines={1}
-                            style={style.username}>{username}</Text>
+                            style={style.username}>{username ? username : "Username"}</Text>
                         <View>
                             <Text
                                 numberOfLines={1}
@@ -66,7 +73,7 @@ export const ProfileHeader = ({ postAmount }) => {
                         </View>
                     </View>
                     <Spacer height={20} />
-                    <CustomAppButton title="Log out" />
+                    <CustomAppButton onPress={signOutFirebaseUser()} title="Log out" />
                 </View>
             </SafeAreaView >
         </View >

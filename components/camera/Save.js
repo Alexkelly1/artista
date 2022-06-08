@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { View, TextInput, Image, Button } from "react-native";
-import { singularPhotoUpload } from "../../firebase/network/singluarPhoto";
+import { photoUpload, createUserPost } from "../../firebase/network/photoHandler";
 
-export const Save = (props) => {
-    const generatedId = Math.random().toString(15)
-    const [caption, setCaption] = useState(generatedId);
-    const directory = `user-posts`;
+export const Save = ({ navigation, route }) => {
+    const postPhotoID = Math.random().toString(15);
+    const [caption, setCaption] = useState("");
+    const directory = 'user-posts';
 
-    const imagePath = props.route.params.image;
+    const imagePath = route.params.image;
 
-    const postPhoto = async () => {
-        await singularPhotoUpload({ directory }, imagePath, caption)
+    const postPhoto = () => {
+        photoUpload({ directory }, imagePath, postPhotoID)
+            .then(_ => createUserPost({ directory }, "users", postPhotoID, caption));
 
-        props.navigation.navigate(
+        navigation.navigate(
             'TabNavigation',
             { screen: 'Home' }
         );

@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, FlatList, TouchableHighlight } from "react-native";
 import { ProfileHeader } from "./components/ProfileHeader";
-import { fetchUserPhotosList } from "../../firebase/network/fetchUserPhotosList";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { fetchFirestoreDoc } from "../../firebase/network/firestoreDoc";
+import placeholder from '../../assets/image-placeholder.jpg';
 
 const Profile = ({ navigation }) => {
     const [photoURLs, setPhotoURLs] = useState([]);
-    const directory = `user-posts`;
+    const directory = `users`;
 
-    useEffect(() => fetchUserPhotosList({ directory })
-        .then(photos => setPhotoURLs(photos || [])), []);
+    useEffect(() => fetchFirestoreDoc(directory)
+        .then(user => setPhotoURLs(user.posts) || []), []);
 
     const postDetails = (item) => {
-        navigation.navigate("Posts", { postURI: item, });
+        navigation.navigate("Posts", {
+            postURI: item.photo,
+            caption: item.caption,
+            post_id: item.post_id,
+        });
     }
 
     return (
@@ -28,10 +33,11 @@ const Profile = ({ navigation }) => {
                         renderItem={({ item }) => (
                             <View style={style.gridItem}>
                                 <TouchableHighlight onPress={() => postDetails(item)}>
-                                    <Image source={{ uri: item }} style={style.gridImage}></Image>
+                                    <Image source={item.photo ? { uri: item.photo } : placeholder} style={style.gridImage}></Image>
                                 </TouchableHighlight>
                             </View>
-                        )}
+                        )
+                        }
                         numColumns={3}
                         keyExtractor={(_, index) => index.toString()}
                     />

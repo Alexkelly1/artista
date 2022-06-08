@@ -1,19 +1,47 @@
 import { Text, View, StyleSheet } from "react-native";
 import { UserAvatar } from "../../../components/widgets/Avatar";
 import defaultAvatar from '../../../assets/default_avatar.jpg';
+import { fetchFirestoreDoc } from '../../../firebase/network/firestoreDoc';
+import { useState, useEffect } from "react";
 
+// Required: postID
 export const Comments = () => {
-    return (
-        <View style={style.commentsList}>
+    const [commentList, setCommentList] = useState([]);
+    const [username, setUsername] = useState('');
+    const [avatar, setAvatar] = useState(null);
+    const directory = "users";
+
+    useEffect(() => fetchFirestoreDoc(directory)
+        .then(user => {
+            setUsername(user.name)
+            setAvatar(user.avatar);
+            setCommentList(user.comments || [])
+        }), []);
+
+    const comments = commentList.map((item, i) => (
+        <View key={i} style={style.commentsList}>
             <UserAvatar
                 size="small"
-                source={defaultAvatar}
+                source={avatar ? { uri: avatar } : defaultAvatar}
             />
-            <Text style={style.username}>Thomas</Text>
+            <Text style={style.username}>{username}</Text>
             <View style={{ flex: 1 }}>
-                <Text style={style.comment}>This is a random comment.</Text>
+                <Text style={style.comment}>{item.comment}</Text>
             </View>
         </View>
+    )
+    );
+
+    return (
+        <>
+            {commentList.length != 0 ?
+                comments
+                : (
+                    <>
+                        <Text>No comments found for this post.</Text>
+                    </>
+                )}
+        </>
     )
 }
 

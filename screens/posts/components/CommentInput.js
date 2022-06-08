@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import {
     View,
     TextInput, KeyboardAvoidingView,
@@ -7,30 +8,57 @@ import {
 import { UserAvatar } from '../../../components/widgets/Avatar';
 import defaultAvatar from '../../../assets/default_avatar.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { UserContext } from "../../../state/Context";
+import { fetchFirestoreDoc, updateFireStoreDoc } from "../../../firebase/network/firestoreDoc";
+import { arrayUnion } from "firebase/firestore";
 
-export const CommentInput = () => (
-    <KeyboardAvoidingView behavior='position'>
-        <View style={style.commentContainer}>
-            <UserAvatar
-                size="small"
-                source={defaultAvatar}
-            />
-            <TextInput
-                style={style.commentInput}
-                placeholder="Add a comment..."
-                placeholderTextColor={'#c4c4c4'}
-            />
-            <TouchableHighlight>
-                <Icon name="send"
-                    size={25}
-                    color="white"
+export const CommentInput = ({ postId }) => {
+    const appContext = useContext(UserContext);
+    const { avatar } = appContext.state;
+    const [comment, setComment] = useState('');
+    const commentId = Math.random().toString(15);
+
+    // ToDo: submit post ID
+    const submitComment = async () => {
+        await fetchFirestoreDoc("users").then(res => console.log("RES: ", res))
+        updateFireStoreDoc("users", {
+            comments: arrayUnion({
+                id: commentId,
+                comment: comment,
+                postId: postId
+            })
+        })
+    }
+
+    return (
+        <KeyboardAvoidingView behavior='position'>
+            <View style={style.commentContainer}>
+                <UserAvatar
+                    size="small"
+                    source={avatar ? { uri: avatar } : defaultAvatar}
                 />
-            </TouchableHighlight>
-        </View>
-    </KeyboardAvoidingView>
-)
+                <TextInput
+                    style={style.commentInput}
+                    placeholder="Add a comment..."
+                    placeholderTextColor={'#c4c4c4'}
+                    onChangeText={(comment) => setComment(comment)}
+                />
+                <TouchableHighlight onPress={() => submitComment()}>
+                    <Icon
+                        style={style.sendIcon}
+                        name="send"
+                        color="white"
+                    />
+                </TouchableHighlight>
+            </View>
+        </KeyboardAvoidingView>
+    )
+}
 
 const style = StyleSheet.create({
+    sendIcon: {
+        fontSize: 25
+    },
     commentContainer: {
         display: 'flex',
         flexDirection: 'row',

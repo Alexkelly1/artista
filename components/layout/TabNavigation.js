@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import HomeScreen from '../../screens/Home';
 import ProfileScreen from '../../screens/profile/Profile';
+import { GlobalStateProvider } from '../../state/Context';
 
 const Tab = createMaterialBottomTabNavigator()
 
